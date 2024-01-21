@@ -85,7 +85,6 @@ public class CommentService {
     return CommentDto.fromEntity(commentRepository.save(comment));
   }
 
-
   // DELETE
   public void delete(Long articleId, Long commentId) {
 

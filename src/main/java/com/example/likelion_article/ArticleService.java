@@ -2,7 +2,7 @@ package com.example.likelion_article;
 
 import com.example.likelion_article.dto.ArticleDto;
 import com.example.likelion_article.entity.Article;
-import jakarta.servlet.http.Part;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,50 +46,65 @@ public class ArticleService {
   }
 
   // READ ALL
-//  public List<ArticleDto> readAll() {
-//    List<ArticleDto> articleList = new ArrayList<>();
-//
-//    List<Article> articles = repository.findAll();
-//    for(Article entity: articles) {
-//      articleList.add(ArticleDto.fromEntity(entity));
-//    }
-//    return articleList;
-//  }
+  // 기존 readAll
+/*  public List<ArticleDto> readAll() {
+    List<ArticleDto> articleList = new ArrayList<>();
+
+    List<Article> articles = repository.findAll();
+    for(Article entity: articles) {
+      articleList.add(ArticleDto.fromEntity(entity));
+    }
+    return articleList;
+  }*/
 
   // READ ALL PAGED
   // page: 몇번째 페이지인지 나타내는 인자
   // limit: 한 페이지에 몇개가 들어갈지 나타내는 인자
-  public List<ArticleDto> readAllPage(Integer page, Integer limit) {
+  /*
+  public List<ArticleDto> readAllPaged(Integer page, Integer limit) {
 
     List<ArticleDto> articleDtoList = new ArrayList<>();
     // way1. findAll의 결과 List를 일부만 반환하는 방법 - 실무에서 쓴다면 안되는 방법
-/*    List<Article> articles = repository.findAll();
-    for (int i = 0; i < 20; i++) {
-      articleDtoList.add(ArticleDto.fromEntity(articles.get(i))); // page * limit + i
-    }*/
+    // : page랑 limit의 값 상관없이 앞에서부터 20개까지 read
+    // => 성능상에 문제가 있기 때문에 실무에선 쓰이지 않음
+   *//* List<Article> articles = repository.findAll();
+    for (int i = 0; i < 20; i++) { // page 변수를 활용하여, i = page * limit
+      articleDtoList.add(ArticleDto.fromEntity(articles.get(i)));
+    }*//*
 
     // way2. DB 자체에서 limit만큼만 조회
     // Query Method를 이용해서 특정 갯수 이후의 게시글만 조회하게 한다.
-    List<Article> articles = repository.findTop20ByOrderByIdDesc();
+    // => 페이지 이동을 위해 각 페이지의 마지막 id가 무엇인지 알아야하기 때문에 비효율적
+    *//*List<Article> articles = repository.findTop20ByOrderByIdDesc();
     for (Article entity: articles) {
       articleDtoList.add(ArticleDto.fromEntity(entity));
-    }
+    }*//*
 
     return articleDtoList;
   }
+  */
 
   // 페이지네이션(JPA 페이지네이션)
-  public Page<ArticleDto> readAllPagination(Integer page, Integer limit) {
-    // 3. JPA PagingAndSortingRepository
+  // : JPA에서는 "pageable"이란 기능을 가지고 있다.
+  // JpaRepository에서 상속받고 있는 PagingAndSortingRepository라는 페이지 기능 지원 인터페이스가 있다.
+  // 그 안에 Page<T> findAll(Pageable pageable)란 메소드가 있다.
+  // 즉, 페이지에 대한 정보만 있어도 쉽게 페이지를 나눠서 결과를 반환할 수 있다.
+  public Page<ArticleDto> readAllPagination(
+    Integer page, // 몇번째 페이지인지
+    Integer limit // 한 페이지에 몇개가 들어갈지
+  ) {
+    // way3. JPA PagingAndSortingRepository
     Pageable pageable = PageRequest.of(
       page -1, // page 기본값이 1이므로 사용자 친화적이게 -1을 해주자
       limit,
       Sort.by(Sort.Direction.DESC, "id"));
 
     Page<Article> articleEntityPage = repository.findAll(pageable);
-  /*Page<ArticleDto> articleDtoPage = articleEntityPage.map(article -> {
-      return ArticleDto.fromEntity(article);
-  });*/
+
+    // Page는 Optional과 Stream의 map 메소드와 비슷한 map을 가지고 있다.
+    // Page<ArticleDto> articleDtoPage = articleEntityPage.map(article -> {
+    //     return ArticleDto.fromEntity(article); // map은 내부에 함수를 인자로 받기 때문에 return이 온다.
+    // });
 
     Page<ArticleDto> articleDtoPage = articleEntityPage
       .map(ArticleDto::fromEntity);

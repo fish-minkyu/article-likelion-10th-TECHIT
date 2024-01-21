@@ -32,7 +32,9 @@ public class Article {
   @Setter
   private String writer;
 
-  // 1:N관계 설정 시, readAll할 때 너무 많은 데이터가 불러오질 수 있으므로 일단 하지 않는다.
+  // 1:N관계 설정 시, 생길 수 있는 문제 2가지
+  // Problem 1. readAll할 때 너무 많은 데이터가 불러오질 수 있으므로 일단 하지 않는다.
+  // Problem 2. 양방향 관계 시, 서로 순환 참조를 하게 되어 stackOverFlow를 일으킬 수 있다.
 //  @OneToMany
 //  private List<Comment> comments = new ArrayList<>();
 

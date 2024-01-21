@@ -32,10 +32,11 @@ public class ArticleController {
     return service.create(dto);
   }
 
-//  @GetMapping
-//  public List<ArticleDto> readAll() {
-//    return service.readAll();
-//  }
+  // 기존 readAll API
+/*  @GetMapping
+  public List<ArticleDto> readAll() {
+    return service.readAll();
+  }*/
 
 /*  @GetMapping
   public List<ArticleDto> readAllPaged(
