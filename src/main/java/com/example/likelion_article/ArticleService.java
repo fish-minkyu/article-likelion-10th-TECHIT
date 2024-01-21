@@ -27,8 +27,7 @@ public class ArticleService {
 
   // CREATE
   public ArticleDto create(ArticleDto dto) {
-    // 이 부분 수업 놓침
-    // way1. new 생성자 사용
+    // way1. new 생성자 사용 -> 그 안에다가 데이터를 한꺼번에 넣어서 객체 생성
     Article newArticle = new Article(
       dto.getTitle(),
       dto.getContent(),
@@ -37,12 +36,12 @@ public class ArticleService {
     // way2. setter 사용
     // article.setTitle(dto.getTitle());
 
-    // 11시 수업,설명 놓침
+    // save 메소드는 entity를 받으면 entity를 반환한다.
+    // 그 이유는 JPA를 만든 사람들이
+    // 한번 저장하거나 수정한 entity는 다시 사용하는 것을 권장하지 않는다고 말했기 때문이다.
     newArticle = repository.save(newArticle);
-    // 여기 왜 id를 넣어주는게 좋은지 설명 자세히 적어두기
-    // 다음 행동을 위해 id를 포함해서 응답을 해주는 것이 중요
-    // (read, update, delete에서 id를 사용하니까)
-   return ArticleDto.fromEntity(repository.save(newArticle));
+
+    return ArticleDto.fromEntity(repository.save(newArticle));
   }
 
   // READ ALL
@@ -55,7 +54,8 @@ public class ArticleService {
       articleList.add(ArticleDto.fromEntity(entity));
     }
     return articleList;
-  }*/
+  }
+*/
 
   // READ ALL PAGED
   // page: 몇번째 페이지인지 나타내는 인자

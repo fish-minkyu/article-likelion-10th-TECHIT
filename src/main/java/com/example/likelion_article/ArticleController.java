@@ -26,7 +26,7 @@ public class ArticleController {
 
   @PostMapping // 괄호를 굳이 열 필요는 없다.
   public ArticleDto create(
-    // JSON 데이터는 Body에 들어가므로
+    // JSON 데이터는 Body에 들어가므로 RequestBody 사용
     @RequestBody ArticleDto dto
   ) {
     return service.create(dto);

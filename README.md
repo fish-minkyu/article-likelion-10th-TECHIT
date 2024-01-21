@@ -1,6 +1,8 @@
 # likelion_article
 - 2024.01.18 ~ 01.19
 
+RESTful를 기준으로 CRUD를 작성  
+
 
 ## 스택
 
