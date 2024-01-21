@@ -48,7 +48,7 @@ public class ArticleController {
 
   @GetMapping
   public Page<ArticleDto> readAllPagination(
-    @RequestParam(value = "page", defaultValue = "1")
+    @RequestParam(value = "page", defaultValue = "1") // localhost:8080/articles?page=2&limit=20
     Integer page,
     @RequestParam(value = "limit", defaultValue = "20")
     Integer limit

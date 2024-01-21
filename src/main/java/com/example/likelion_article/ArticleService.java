@@ -94,8 +94,9 @@ public class ArticleService {
     Integer limit // 한 페이지에 몇개가 들어갈지
   ) {
     // way3. JPA PagingAndSortingRepository
+    // Pageable이란 객체를 통해서 JAP repository의 findAll이 넘겨받음으로써 Page를 돌려준다.
     Pageable pageable = PageRequest.of(
-      page -1, // page 기본값이 1이므로 사용자 친화적이게 -1을 해주자
+      page -1, // 첫 page는 0이므로 사용친화적이게 -1을 해주자. => 1페이지는 컴퓨터에겐 0페이지
       limit,
       Sort.by(Sort.Direction.DESC, "id"));
 
