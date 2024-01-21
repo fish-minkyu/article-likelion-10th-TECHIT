@@ -98,7 +98,7 @@ public class ArticleService {
     Pageable pageable = PageRequest.of(
       page -1, // 첫 page는 0이므로 사용친화적이게 -1을 해주자. => 1페이지는 컴퓨터에겐 0페이지
       limit,
-      Sort.by(Sort.Direction.DESC, "id"));
+      Sort.by(Sort.Direction.DESC, "id")); // 1번째 인자, 내림차순, 2번째 인자: 기준 컬럼
 
     Page<Article> articleEntityPage = repository.findAll(pageable);
 
@@ -111,8 +111,12 @@ public class ArticleService {
       .map(ArticleDto::fromEntity);
 
     return articleDtoPage;
-  }
 
+    // Page는 iterable 객체여서 순회하면서 데이터를 확인할 수 있다.
+    // for (Article entity: articleEntityPage) {
+    //   log.info(ArticleDto.fromEntity(entity).toString());
+    // }
+  }
 
   // READ ONE
   public ArticleDto readOne(Long id) {

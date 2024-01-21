@@ -1,6 +1,5 @@
 package com.example.likelion_article;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +23,7 @@ public class QueryController {
     @RequestParam(value = "height", defaultValue = "175") Integer height, // defaultValue은 문자열만 넣을 수 있다.
     @RequestParam("weight") Integer weight
   ) {
-    // RequestParam으로 데이터를 받아 crud를 하는 것은 URL의 정의에 맞지 않다. + 보안 문ㅈ
+    // RequestParam으로 데이터를 받아 crud를 하는 것은 URL의 정의에 맞지 않다. + 보안 문제
     log.info(name);
     log.info(String.valueOf(age));
     log.info(height.toString());
