@@ -14,7 +14,6 @@ public class QueryController {
   // ? 뒤쪽은 query parameter라고 부른다.
   // key-value 형태로 기입이 된다.
   // 두개 이상 넣을 시 앤퍼센트연산자(&)을 넣는다.
-  // 이 자원이 특정한 조건을 만족시킨다에 쓰는 ???
   @GetMapping("/query-test")
   public void queryParams(
     // Query Parameter를 받아올 때 사용 가능
